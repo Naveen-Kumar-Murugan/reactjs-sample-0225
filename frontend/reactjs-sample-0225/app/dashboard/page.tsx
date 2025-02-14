@@ -8,46 +8,37 @@ import {
     ModalFooter,
     Button,
     useDisclosure,
+    Input
   } from "@heroui/react";
 import NavBar from "@/components/navbar";
+import ListBox from "@/components/Listbox";
   
 export default function App() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
   
     return (
-      <div>
+      <div className="h-screen">
         <NavBar/>
+        <div className="lg:flex">
+        <ListBox/>
+        <ListBox/>
+        <ListBox/>
+        </div>
         <Button onPress={onOpen} className="border-2 rounded-full bg-colour3 text-colour1 text-5xl font-bold h-20 w-14">+</Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="border-4 bg-colour1 text-colour3">
           <ModalContent>
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
                 <ModalBody>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non
-                    risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor
-                    quam.
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non
-                    risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor
-                    quam.
-                  </p>
-                  <p>
-                    Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit dolor
-                    adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                    officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                    nisi consectetur esse laborum eiusmod pariatur proident Lorem eiusmod et. Culpa
-                    deserunt nostrud ad veniam.
-                  </p>
+                    <Input label="Add List" size="md" type="text" />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Action
+                    <Button className="bg-colour4 font-semibold text-colour1" type="submit" onPress={onClose}>
+                        Add
+                    </Button>
+                    <Button type="reset" className="bg-colour5 font-semibold" variant="flat" onPress={onClose}>
+                        Close
                   </Button>
                 </ModalFooter>
               </>
