@@ -57,7 +57,7 @@ export default function ListBox({listNameArr}) {
             <Button  className="border-2 rounded-full bg-colour4 text-colour1 text-3xl min-w-4 px-3 h-fit font-bold" onPress={()=>addTask(item)}>+</Button>
             <Input label="Add Task" size="sm" type="text" className="ml-2" value={taskName[item]} onChange={(e)=>setTaskName(e.target.value)}/>
         </div>
-        {/* <AddTask tasks={tasks[item]}/> */}
+        <AddTask tasks={tasks[item] || []}/>
     </div>
     ))}
     </>
