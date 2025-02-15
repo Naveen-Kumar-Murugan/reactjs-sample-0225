@@ -1,11 +1,17 @@
 "use client"
 
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react"
 import {Form, Input, Button} from "@heroui/react";
+import { useRouter } from 'next/navigation'
 import Link from "next/link";
+import { auth } from "../config";
+
 
 export default function Page() {
-  const [action, setAction] = React.useState(null);
+    const [email,setEmail] = useState<string>("");
+    const [password,setPassword] = useState("");
+    const router = useRouter();
 
   return (
     <div className="flex-col flex justify-center bg-colour1 h-screen items-center">
@@ -14,11 +20,17 @@ export default function Page() {
         className="w-full h-72 max-w-xs flex flex-col gap-4 border-4 rounded-3xl p-5 bg-colour5 shadow-2xl border-colour3"
         // validationBehavior="aria"
         //onReset={() => setAction("reset")}
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
             e.preventDefault();
-            let data = Object.fromEntries(new FormData(e.currentTarget));
-
-            //setAction(`submit ${JSON.stringify(data)}`);
+            try{
+                await signInWithEmailAndPassword(auth,email,password);
+                console.log("User Logged In Succesfully");
+                localStorage.setItem("user", auth.currentUser.uid);
+                router.push("/dashboard");
+            }
+            catch(error){
+                alert(error);
+            }
         }}
         >
         <div className="w-full">
@@ -26,9 +38,11 @@ export default function Page() {
             <Input
                 isRequired
                 errorMessage="Please enter a valid email"
-                name="username"
+                name="email"
                 placeholder="Enter your email"
-                type="text"
+                type="email"
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
             />
         </div>
 
@@ -37,9 +51,11 @@ export default function Page() {
         <Input
             isRequired
             errorMessage="Please enter a valid password"
-            name="email"
+            name="password"
             placeholder="Enter your password"
-            type="email"
+            type="password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
             className="my-2 "
         />
         </div>
@@ -51,11 +67,6 @@ export default function Page() {
             Reset
             </Button>
         </div>
-        {action && (
-            <div className="text-small text-default-500">
-            Action: <code>{action}</code>
-            </div>
-        )}
         </Form>
         <div className="flex mt-3 justify-evenly">
             <p className="text-sm pr-2 text-colour2 font-semibold">Don't have an account? </p>
