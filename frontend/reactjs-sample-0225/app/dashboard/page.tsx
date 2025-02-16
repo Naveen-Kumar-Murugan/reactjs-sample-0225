@@ -14,17 +14,18 @@ import NavBar from "@/components/navbar";
 import ListBox from "@/components/Listbox";
 import { useState,useEffect } from "react";
 import {auth, db} from "../config";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc,getDocs,collection } from "firebase/firestore";
 import React from "react";
+import { profile } from "console";
   
 export default function App() {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [listName,setListName] = useState("");
     const [tasks,setTasks] = useState({});
     const [listNameArr,setListNameArr] = useState(Object.keys(tasks));
-    const [profilePic,setProfilePic] = useState();
-
     const user = auth.currentUser? auth.currentUser.uid : "";
+    const profilePic = localStorage.getItem("profilePic");
+    console.log("profilepic ",profilePic);
     console.log("user",user);
     console.log("List Names:", listNameArr);
     const action = () => {
@@ -38,25 +39,20 @@ export default function App() {
             if (user) {
                 const docRef = doc(db, "tasks", user);
                 const docSnap = await getDoc(docRef);
-                let response;
                   if (docSnap.exists()) {
                     setTasks(docSnap.data().tasks);
-                    response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
                   }
                   console.log("update :",listNameArr)
-                  const data = await response.json();
-                  console.log("data",data)
-                  setProfilePic(data.download_url);
                 }
               };
               fetchTasks();
-            }, [user]);
+            },[]);
     useEffect(() => {
        setListNameArr(Object.keys(tasks));
     }, [tasks]);
     return (
       <div className="h-screen">
-        <NavBar url={profilePic}/>
+          <NavBar url={profilePic}/>
         <div className="lg:flex">
         <ListBox listNameArr={listNameArr}/>
         </div>

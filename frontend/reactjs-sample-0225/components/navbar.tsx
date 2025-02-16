@@ -10,6 +10,8 @@ import {Popover, PopoverTrigger, PopoverContent, Button, user} from "@heroui/rea
 import { doc, getDoc } from "firebase/firestore";
 
 export default function NavBar({profilePic}) {
+    // const [profilePic,setProfilePic] = useState();
+    console.log("profile pic :",profilePic);
     let uid = auth.currentUser.uid;
     onAuthStateChanged(auth, (user)=>{
         if(user){
@@ -19,29 +21,6 @@ export default function NavBar({profilePic}) {
             uid=" ";
         }
     });
-    // useEffect(() => {
-    //     const fetchTasks = async () => {
-    //       if (user) {
-    //         const docRef = doc(db, "tasks", user);
-    //         const docSnap = await getDoc(docRef);
-    //         const response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
-    //         const data = await response.json();
-    //         console.log("data",data)
-    //         setProfilePic(data.download_url);
-    //       }
-    //     };
-    //     fetchTasks();
-    //   },[]);
-    // useEffect(() => {
-    //     const fetchProfilePic = async () => {
-    //       try {
-            
-    //       } catch (error) {
-    //         console.error("Error fetching profile picture:", error);
-    //       }
-    //     };
-    //     fetchProfilePic();
-    //   }, [user]);
     const router = useRouter();
 
     const handleChange = async(e) =>{

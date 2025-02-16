@@ -20,11 +20,6 @@ export default function AddTask({tasks}) {
                };
                fetchTasks();
         }, []);
-        
-        // useEffect(() => {
-        //     setDoc(doc(db, "tasks", user), {completedTasks }, { merge: true });
-        // }, [completedTasks]);
-
         const action = (index) => {
             setCompletedTasks((prev) => {
               const updatedCompleted = { ...prev, [index]: !prev[index]}

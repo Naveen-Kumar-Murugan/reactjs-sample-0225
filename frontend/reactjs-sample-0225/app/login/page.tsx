@@ -5,7 +5,8 @@ import React, { useState } from "react"
 import {Form, Input, Button} from "@heroui/react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
-import { auth } from "../config";
+import { auth,db } from "../config";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 
 export default function Page() {
@@ -26,6 +27,11 @@ export default function Page() {
                 await signInWithEmailAndPassword(auth,email,password);
                 console.log("User Logged In Succesfully");
                 localStorage.setItem("user", auth.currentUser.uid);
+                const docRef = doc(db, "tasks",auth.currentUser?.uid);
+                const docSnap = await getDoc(docRef);
+                const response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
+                const data = await response.json();
+                localStorage.setItem("profilePic",data.download_url);
                 router.push("/dashboard");
             }
             catch(error){
