@@ -18,7 +18,7 @@ export default function Page() {
     });
     const router = useRouter()
 
-        const handleChange = (e) => {
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const { name, value } = e.target;
             setFormData(prevState => ({
             ...prevState,
@@ -41,7 +41,10 @@ export default function Page() {
                 const snapshot = await getDocs(usersRef);
                 const usersCount = snapshot.docs.length;
                 console.log("count ",usersCount);
-            
+                if (!auth.currentUser?.uid) {
+                    console.error("User is not authenticated");
+                    return;
+                }
                 const userRef = doc(db, "tasks", auth.currentUser?.uid);
                 const userSnap = await getDoc(userRef);
             

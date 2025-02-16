@@ -3,9 +3,13 @@ import { Button,Input,useDisclosure,Modal,ModalContent,ModalBody,ModalHeader,Mod
 import {auth, db} from "../app/config";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
-export default function AddTask({tasks}) {
+interface AddTaskProps {
+    tasks: string[];
+  }
+
+export default function AddTask({tasks}:AddTaskProps) {
         const {isOpen, onOpen, onOpenChange} = useDisclosure();
-        const [completedTasks, setCompletedTasks] = useState({});
+        const [completedTasks, setCompletedTasks] = useState<Record<string | number, boolean>>({});
         const user = auth.currentUser?.uid;
         
         useEffect(() => {
@@ -20,7 +24,11 @@ export default function AddTask({tasks}) {
                };
                fetchTasks();
         }, [user]);
-        const action = (index) => {
+        const action = (index: string | number) => {
+            if (!user) {
+                console.error("User is not authenticated.");
+                return; // Prevents execution if user is undefined
+              }
             setCompletedTasks((prev) => {
               const updatedCompleted = { ...prev, [index]: !prev[index]}
               setDoc(doc(db, "tasks", user), {completedTasks: updatedCompleted }, { merge: true });

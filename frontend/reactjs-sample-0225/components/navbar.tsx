@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import Logo from "../public/logo.png"
 import { useRouter } from 'next/navigation'
@@ -8,24 +8,22 @@ import {auth} from "../app/config";
 import {Popover, PopoverTrigger, PopoverContent} from "@heroui/react";
 
 export default function NavBar({}) {
-    const [profilePic, ] = useState(localStorage.getItem("profilePic"));
+    // const [profilePic, setProfilePic] = useState(localStorage.getItem("profilePic"));
+    const [profilePic, setProfilePic] = useState<string | null>(null);
     console.log("profile pic :",profilePic);
-    // let uid = auth.currentUser.uid;
-    // onAuthStateChanged(auth, (user)=>{
-    //     if(user){
-    //         uid = auth.currentUser.uid; 
-    //     }
-    //     else{
-    //         uid=" ";
-    //     }
-    // });
     const router = useRouter();
 
     const handleChange = async() =>{
         await auth.signOut();
         router.push('/login')
     }
-
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            // Ensure we are in the browser before accessing localStorage
+            const pic = localStorage.getItem("profilePic");
+            setProfilePic(pic);
+        }
+    }, []);
   return (
     <div className="w-full h-16 flex justify-between bg-colour3 items-center m-0 px-2">
         <div className="flex items-center justify-between ">

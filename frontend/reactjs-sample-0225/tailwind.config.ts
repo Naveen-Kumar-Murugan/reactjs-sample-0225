@@ -21,8 +21,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         border: "#E5E7EB", // Light gray border color
-        background: "#F9FAFB", // Light background color
-        foreground: "#111827", // Dark text color
+        // background: "#F9FAFB", // Light background color
+        // foreground: "#111827", // Dark text color
       },
     },
   },

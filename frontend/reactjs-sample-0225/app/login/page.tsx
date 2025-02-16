@@ -24,12 +24,25 @@ export default function Page() {
             try{
                 await signInWithEmailAndPassword(auth,email,password);
                 console.log("User Logged In Succesfully");
-                localStorage.setItem("user", auth.currentUser.uid);
+                if(auth.currentUser?.uid){
                 const docRef = doc(db, "tasks",auth.currentUser?.uid);
                 const docSnap = await getDoc(docRef);
-                const response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
-                const data = await response.json();
-                localStorage.setItem("profilePic",data.download_url);
+                if (docSnap.exists()) {
+                    const docData = docSnap.data(); // Ensure data is available
+                    if (docData?.index) {
+                        const response = await fetch(`https://picsum.photos/id/${docData.index}/info`);
+                        const data = await response.json();
+                        localStorage.setItem("profilePic", data.download_url);
+                    } else {
+                        console.error("Document found but 'index' field is missing.");
+                    }
+                } else {
+                    console.error("Document does not exist in Firestore.");
+                }
+                // const response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
+                // const data = await response.json();
+                // localStorage.setItem("profilePic",data.download_url);
+                }
                 router.push("/dashboard");
             }
             catch(error){

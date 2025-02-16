@@ -6,10 +6,14 @@ import AddTask from "./AddTask";
 import {auth, db} from "../app/config";
 import {  doc, setDoc, getDoc } from "firebase/firestore";
 
-export default function ListBox({listNameArr}) {
+interface ListBoxProps {
+  listNameArr: string[]; // Define listNameArr as an array of strings
+}
+
+export default function ListBox({ listNameArr }: ListBoxProps) {
     const { onOpen} = useDisclosure();
     const [taskName, setTaskName] = useState("");
-    const [tasks,setTasks] = useState({});
+    const [tasks,setTasks] = useState<Record<string, string[]>>({});
 
     const user = auth.currentUser? auth.currentUser.uid : "";
     console.log(tasks);
@@ -32,13 +36,13 @@ export default function ListBox({listNameArr}) {
       }, [tasks,user]);
     
     
-    const addTask = (item) => {
+    const addTask = (item: string) => {
           setTasks((prev) => ({
             ...prev,
             [item]: [...(prev[item] || []), taskName],
           }));
           console.log(tasks);
-          setTaskName((prev) => ({...prev,[item]:""}));
+          setTaskName("");
       };
 
   return (
@@ -55,7 +59,7 @@ export default function ListBox({listNameArr}) {
         </div>
         <div className="flex my-3 mx-2 items-center">
             <Button  className="border-2 rounded-full bg-colour4 text-colour1 text-3xl min-w-4 px-3 h-fit font-bold" onPress={()=>addTask(item)}>+</Button>
-            <Input label="Add Task" size="sm" type="text" className="ml-2" value={taskName[item]} onChange={(e)=>setTaskName(e.target.value)}/>
+            <Input label="Add Task" size="sm" type="text" className="ml-2" value={taskName} onChange={(e)=>setTaskName(e.target.value)}/>
         </div>
         <AddTask tasks={tasks[item] || []}/>
     </div>
