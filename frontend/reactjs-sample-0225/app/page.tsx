@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 export default function Home() {
   const router = useRouter();
   const action1 = () => {
-    router.push('/Sign Up')
+    router.push('/signup')
   }
   const action2 = () => {
     router.push('/login')
