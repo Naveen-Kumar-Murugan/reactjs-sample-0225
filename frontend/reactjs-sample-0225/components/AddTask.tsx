@@ -19,7 +19,7 @@ export default function AddTask({tasks}) {
                  }
                };
                fetchTasks();
-        }, []);
+        }, [user]);
         const action = (index) => {
             setCompletedTasks((prev) => {
               const updatedCompleted = { ...prev, [index]: !prev[index]}

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Logo from "../public/logo.png"
 import { useRouter } from 'next/navigation'
 import {auth} from "../app/config";
-import { onAuthStateChanged } from "firebase/auth";
 import {Popover, PopoverTrigger, PopoverContent} from "@heroui/react";
 
 export default function NavBar({}) {

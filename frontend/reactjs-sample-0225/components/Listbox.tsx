@@ -29,7 +29,7 @@ export default function ListBox({listNameArr}) {
         if (user && Object.keys(tasks).length > 0) {
           setDoc(doc(db, "tasks", user), { tasks },{ merge: true });
         }
-      }, [tasks]);
+      }, [tasks,user]);
     
     
     const addTask = (item) => {

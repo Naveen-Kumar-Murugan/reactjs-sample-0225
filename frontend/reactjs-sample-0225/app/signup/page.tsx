@@ -1,11 +1,11 @@
 "use client"
 
-import React , {useState,useEffect} from "react"
+import React , {useState} from "react"
 import {Form, Input, Button} from "@heroui/react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import {auth,db} from "../config";
-import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, getDocs,getDoc,setDoc,doc } from "firebase/firestore";
 
 
@@ -36,6 +36,7 @@ export default function Page() {
             e.preventDefault();
             try{
                 const user = await createUserWithEmailAndPassword(auth,formData.email,formData.password);
+                console.log(user);
                 const usersRef = collection(db, "tasks");
                 const snapshot = await getDocs(usersRef);
                 const usersCount = snapshot.docs.length;

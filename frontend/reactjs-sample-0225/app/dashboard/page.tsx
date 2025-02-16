@@ -37,11 +37,10 @@ export default function App() {
                   if (docSnap.exists()) {
                     setTasks(docSnap.data().tasks);
                   }
-                  console.log("update :",listNameArr)
                 }
               };
               fetchTasks();
-            },[]);
+            },[user]);
     useEffect(() => {
        setListNameArr(Object.keys(tasks));
     }, [tasks]);
