@@ -4,8 +4,10 @@ import React , {useState,useEffect} from "react"
 import {Form, Input, Button} from "@heroui/react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
-import {auth} from "../config";
+import {auth,db} from "../config";
 import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs,getDoc,setDoc,doc } from "firebase/firestore";
+
 
 export default function Page() {
     // const [action, setAction] = React.useState(null);
@@ -41,6 +43,17 @@ export default function Page() {
             e.preventDefault();
             try{
                 const user = await createUserWithEmailAndPassword(auth,formData.email,formData.password);
+                const usersRef = collection(db, "tasks");
+                const snapshot = await getDocs(usersRef);
+                const usersCount = snapshot.docs.length;
+                console.log("count ",usersCount);
+            
+                const userRef = doc(db, "tasks", auth.currentUser?.uid);
+                const userSnap = await getDoc(userRef);
+            
+                if (!userSnap.exists()) {
+                  await setDoc(userRef, { index: usersCount + 1, tasks: {} });
+                }
                 router.push('/dashboard')
             }
             catch(error){

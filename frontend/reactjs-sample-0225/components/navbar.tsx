@@ -1,14 +1,15 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import Logo from "../public/logo.png"
 import { useRouter } from 'next/navigation'
-import {auth} from "../app/config";
+import {auth, db} from "../app/config";
 import { onAuthStateChanged } from "firebase/auth";
-import {Popover, PopoverTrigger, PopoverContent, Button} from "@heroui/react";
+import {Popover, PopoverTrigger, PopoverContent, Button, user} from "@heroui/react";
+import { doc, getDoc } from "firebase/firestore";
 
-export default function NavBar() {
+export default function NavBar({profilePic}) {
     let uid = auth.currentUser.uid;
     onAuthStateChanged(auth, (user)=>{
         if(user){
@@ -18,10 +19,31 @@ export default function NavBar() {
             uid=" ";
         }
     });
-    const [loginfo,setLoginfo] = useState(uid ? "Logout" : "Login");
-    const [accntNo,setAccountNo] = useState(uid);
+    // useEffect(() => {
+    //     const fetchTasks = async () => {
+    //       if (user) {
+    //         const docRef = doc(db, "tasks", user);
+    //         const docSnap = await getDoc(docRef);
+    //         const response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
+    //         const data = await response.json();
+    //         console.log("data",data)
+    //         setProfilePic(data.download_url);
+    //       }
+    //     };
+    //     fetchTasks();
+    //   },[]);
+    // useEffect(() => {
+    //     const fetchProfilePic = async () => {
+    //       try {
+            
+    //       } catch (error) {
+    //         console.error("Error fetching profile picture:", error);
+    //       }
+    //     };
+    //     fetchProfilePic();
+    //   }, [user]);
     const router = useRouter();
-    
+
     const handleChange = async(e) =>{
         await auth.signOut();
         router.push('/login')
@@ -40,16 +62,19 @@ export default function NavBar() {
         </div>
         <Popover placement="bottom">
             <PopoverTrigger>
+                <div>
                 <Image
-                src = {Logo}
+                src = {profilePic}
                 alt = "Logo"
                 width = {50}
+                height={50}
                 className="border-1 rounded-full border-white hover:cursor-pointer"
                 />
+                </div>
             </PopoverTrigger>
             <PopoverContent>
                 <button className="bg-colour3 font-semibold text-colour1 p-2 rounded-xl" onClick={handleChange}>
-                    {loginfo}
+                    Logout
                 </button>
             </PopoverContent>
         </Popover>

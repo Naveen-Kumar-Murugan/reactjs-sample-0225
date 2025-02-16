@@ -1,18 +1,52 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Button,Input,Checkbox,useDisclosure,Modal,ModalContent,ModalBody,ModalHeader,ModalFooter} from "@heroui/react";
-
+import {auth, db} from "../app/config";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 export default function AddTask({tasks}) {
         const {isOpen, onOpen, onOpenChange} = useDisclosure();
+        const [completedTasks, setCompletedTasks] = useState({});
+        const user = auth.currentUser?.uid;
+        
+        useEffect(() => {
+               const fetchTasks = async () => {
+                 if (user) {
+                   const docRef = doc(db, "tasks", user);
+                   const docSnap = await getDoc(docRef);
+                   if (docSnap.exists()) {
+                     setCompletedTasks(docSnap.data().completedTasks);
+                   }
+                 }
+               };
+               fetchTasks();
+        }, []);
+        
+        // useEffect(() => {
+        //     setDoc(doc(db, "tasks", user), {completedTasks }, { merge: true });
+        // }, [completedTasks]);
+
+        const action = (index) => {
+            setCompletedTasks((prev) => {
+              const updatedCompleted = { ...prev, [index]: !prev[index]}
+              setDoc(doc(db, "tasks", user), {completedTasks: updatedCompleted }, { merge: true });
+              return updatedCompleted;
+              });
+              console.log(completedTasks);
+          };
 return(
         <div>
             <div className="grid mx-2 mb-2"> 
             {tasks.map((taskItem) => (
                 <div key={taskItem} className="flex items-center">
-                    <Checkbox className="my-1 ml-0.5" size="lg" />
+                    <input className="my-1 ml-2 w-5 h-5 border-2 border-blue-500 rounded-lg bg-white
+    mt-1 checked:bg-blue-800 checked:border-0" 
+                    type="checkbox"
+                    checked={completedTasks[taskItem] || false}
+                    onChange={()=>action(taskItem)}
+                    />
                     <button
                     key={taskItem}
-                    className="text-xl font-semibold ml-0.5 bg-white"
+                    className="text-xl font-semibold ml-2 bg-white"
                     onClick={onOpen}
                     >
                     {taskItem}

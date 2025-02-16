@@ -22,6 +22,8 @@ export default function App() {
     const [listName,setListName] = useState("");
     const [tasks,setTasks] = useState({});
     const [listNameArr,setListNameArr] = useState(Object.keys(tasks));
+    const [profilePic,setProfilePic] = useState();
+
     const user = auth.currentUser? auth.currentUser.uid : "";
     console.log("user",user);
     console.log("List Names:", listNameArr);
@@ -36,20 +38,25 @@ export default function App() {
             if (user) {
                 const docRef = doc(db, "tasks", user);
                 const docSnap = await getDoc(docRef);
+                let response;
                   if (docSnap.exists()) {
                     setTasks(docSnap.data().tasks);
+                    response = await fetch(`https://picsum.photos/id/${docSnap.data().index}/info`);
                   }
                   console.log("update :",listNameArr)
+                  const data = await response.json();
+                  console.log("data",data)
+                  setProfilePic(data.download_url);
                 }
               };
               fetchTasks();
-            }, []);
+            }, [user]);
     useEffect(() => {
        setListNameArr(Object.keys(tasks));
     }, [tasks]);
     return (
       <div className="h-screen">
-        <NavBar/>
+        <NavBar url={profilePic}/>
         <div className="lg:flex">
         <ListBox listNameArr={listNameArr}/>
         </div>
