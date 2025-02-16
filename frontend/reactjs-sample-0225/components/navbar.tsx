@@ -1,30 +1,28 @@
 "use client"
 
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Logo from "../public/logo.png"
 import { useRouter } from 'next/navigation'
-import {auth, db} from "../app/config";
+import {auth} from "../app/config";
 import { onAuthStateChanged } from "firebase/auth";
-import {Popover, PopoverTrigger, PopoverContent, Button, user} from "@heroui/react";
-import { doc, getDoc } from "firebase/firestore";
+import {Popover, PopoverTrigger, PopoverContent} from "@heroui/react";
 
 export default function NavBar({}) {
-    // const [profilePic,setProfilePic] = useState();
-    const [profilePic, setProfilePic] = useState(localStorage.getItem("profilePic"));
+    const [profilePic, ] = useState(localStorage.getItem("profilePic"));
     console.log("profile pic :",profilePic);
-    let uid = auth.currentUser.uid;
-    onAuthStateChanged(auth, (user)=>{
-        if(user){
-            uid = auth.currentUser.uid; 
-        }
-        else{
-            uid=" ";
-        }
-    });
+    // let uid = auth.currentUser.uid;
+    // onAuthStateChanged(auth, (user)=>{
+    //     if(user){
+    //         uid = auth.currentUser.uid; 
+    //     }
+    //     else{
+    //         uid=" ";
+    //     }
+    // });
     const router = useRouter();
 
-    const handleChange = async(e) =>{
+    const handleChange = async() =>{
         await auth.signOut();
         router.push('/login')
     }

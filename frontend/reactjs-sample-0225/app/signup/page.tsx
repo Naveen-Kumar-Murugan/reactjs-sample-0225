@@ -16,7 +16,6 @@ export default function Page() {
         email: '',
         password: '',
     });
-    const [user,setUser] = useState();
     const router = useRouter()
 
         const handleChange = (e) => {
@@ -27,12 +26,6 @@ export default function Page() {
             }));
             console.log(formData);
         };
-        useEffect(() => {
-            const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-                setUser(currentUser);
-            });
-            return () => unsubscribe();
-        }, []);
 
   return (
     <div className="flex-col flex justify-center bg-colour1 h-screen items-center">

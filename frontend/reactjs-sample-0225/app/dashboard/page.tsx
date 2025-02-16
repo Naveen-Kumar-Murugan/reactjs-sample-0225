@@ -14,9 +14,8 @@ import NavBar from "@/components/navbar";
 import ListBox from "@/components/Listbox";
 import { useState,useEffect } from "react";
 import {auth, db} from "../config";
-import { getFirestore, doc, setDoc, getDoc,getDocs,collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import React from "react";
-import { profile } from "console";
   
 export default function App() {
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();

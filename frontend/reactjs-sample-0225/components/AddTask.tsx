@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
-import { Button,Input,Checkbox,useDisclosure,Modal,ModalContent,ModalBody,ModalHeader,ModalFooter} from "@heroui/react";
+import { Button,Input,useDisclosure,Modal,ModalContent,ModalBody,ModalHeader,ModalFooter} from "@heroui/react";
 import {auth, db} from "../app/config";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export default function AddTask({tasks}) {
         const {isOpen, onOpen, onOpenChange} = useDisclosure();

@@ -6,7 +6,7 @@ import {Form, Input, Button} from "@heroui/react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import { auth,db } from "../config";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {  doc, getDoc } from "firebase/firestore";
 
 
 export default function Page() {
@@ -73,7 +73,7 @@ export default function Page() {
         </div>
         </Form>
         <div className="flex mt-3 justify-evenly">
-            <p className="text-sm pr-2 text-colour2 font-semibold">Don't have an account? </p>
+            <p className="text-sm pr-2 text-colour2 font-semibold">Don not have an account? </p>
             <Link href={'/signup'}><p className="text-sm text-blue-800 underline"> Sign Up</p></Link>
         </div>
     </div>

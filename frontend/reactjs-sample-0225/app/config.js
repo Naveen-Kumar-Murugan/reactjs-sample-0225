@@ -23,5 +23,3 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 await setPersistence(auth, browserLocalPersistence);
 export const db = getFirestore(app);
-// export{firebase};
-const analytics = getAnalytics(app);

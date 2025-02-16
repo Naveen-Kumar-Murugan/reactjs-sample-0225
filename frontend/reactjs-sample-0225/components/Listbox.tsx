@@ -1,13 +1,13 @@
 "use client"
 
 import React,{useState,useEffect} from "react";
-import { Button,Input,Checkbox,useDisclosure,Modal,ModalContent,ModalBody,ModalHeader,ModalFooter} from "@heroui/react";
+import { Button,Input,useDisclosure} from "@heroui/react";
 import AddTask from "./AddTask";
 import {auth, db} from "../app/config";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {  doc, setDoc, getDoc } from "firebase/firestore";
 
 export default function ListBox({listNameArr}) {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const { onOpen} = useDisclosure();
     const [taskName, setTaskName] = useState("");
     const [tasks,setTasks] = useState({});
 
