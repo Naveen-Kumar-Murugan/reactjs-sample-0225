@@ -19,8 +19,6 @@ export default function Page() {
         <p className="text-2xl mb-2 font-bold text-colour3">Login</p>
         <Form
         className="w-full h-72 max-w-xs flex flex-col gap-4 border-4 rounded-3xl p-5 bg-colour5 shadow-2xl border-colour3"
-        // validationBehavior="aria"
-        //onReset={() => setAction("reset")}
         onSubmit={async (e) => {
             e.preventDefault();
             try{

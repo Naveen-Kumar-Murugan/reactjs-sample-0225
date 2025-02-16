@@ -9,8 +9,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import {Popover, PopoverTrigger, PopoverContent, Button, user} from "@heroui/react";
 import { doc, getDoc } from "firebase/firestore";
 
-export default function NavBar({profilePic}) {
+export default function NavBar({}) {
     // const [profilePic,setProfilePic] = useState();
+    const [profilePic, setProfilePic] = useState(localStorage.getItem("profilePic"));
     console.log("profile pic :",profilePic);
     let uid = auth.currentUser.uid;
     onAuthStateChanged(auth, (user)=>{
@@ -42,6 +43,7 @@ export default function NavBar({profilePic}) {
         <Popover placement="bottom">
             <PopoverTrigger>
                 <div>
+                    {profilePic &&
                 <Image
                 src = {profilePic}
                 alt = "Logo"
@@ -49,6 +51,7 @@ export default function NavBar({profilePic}) {
                 height={50}
                 className="border-1 rounded-full border-white hover:cursor-pointer"
                 />
+                    }
                 </div>
             </PopoverTrigger>
             <PopoverContent>

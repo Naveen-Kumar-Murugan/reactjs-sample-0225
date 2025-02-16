@@ -2,6 +2,7 @@ import {heroui} from '@heroui/theme';
 import { colgroup } from 'framer-motion/client';
 import type { Config } from "tailwindcss";
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,9 +20,16 @@ export default {
         colour5 : "#9ACBD0",
         background: "var(--background)",
         foreground: "var(--foreground)",
+        border: "#E5E7EB", // Light gray border color
+        background: "#F9FAFB", // Light background color
+        foreground: "#111827", // Dark text color
       },
     },
   },
   darkMode: "class",
   plugins: [heroui()],
 } satisfies Config;
+const svgToDataUri = require("mini-svg-data-uri");
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");

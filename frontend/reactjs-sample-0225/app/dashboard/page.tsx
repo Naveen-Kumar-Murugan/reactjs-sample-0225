@@ -23,11 +23,7 @@ export default function App() {
     const [listName,setListName] = useState("");
     const [tasks,setTasks] = useState({});
     const [listNameArr,setListNameArr] = useState(Object.keys(tasks));
-    const user = auth.currentUser? auth.currentUser.uid : "";
-    const profilePic = localStorage.getItem("profilePic");
-    console.log("profilepic ",profilePic);
-    console.log("user",user);
-    console.log("List Names:", listNameArr);
+    const user = auth.currentUser? auth.currentUser.uid : ""
     const action = () => {
         setListNameArr(listNameArr => [...listNameArr,listName]);
         setListName("");
@@ -52,7 +48,7 @@ export default function App() {
     }, [tasks]);
     return (
       <div className="h-screen">
-          <NavBar url={profilePic}/>
+        <NavBar />
         <div className="lg:flex">
         <ListBox listNameArr={listNameArr}/>
         </div>
